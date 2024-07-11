@@ -24,7 +24,7 @@ public class InquiryDAOImpl implements InquiryDAO {
 
     @Override
     public List<Inquiry> getAll() {
-        return null;
+        return inquiryRepository.findAll();
     }
 
     @Override

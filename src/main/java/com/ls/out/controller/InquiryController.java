@@ -29,7 +29,7 @@ public class InquiryController {
      */
     @GetMapping("/list-inquiry")
     public List<InquiryDTO> getAll() {
-        return null;
+        return inquiryService.getAll();
     }
 
     /**
