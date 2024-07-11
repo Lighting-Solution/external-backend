@@ -29,7 +29,7 @@ public class InquiryController {
      */
     @GetMapping("/list-inquiry")
     public List<InquiryDTO> getAll() {
-        return null;
+        return inquiryService.getAll();
     }
 
     /**
@@ -37,9 +37,9 @@ public class InquiryController {
      * @param id
      * @return
      */
-    @GetMapping("/detail-inquiry")
-    public InquiryDTO getDetail(Integer id) {
-        return null;
+    @GetMapping("/detail-inquiry/{id}")
+    public InquiryDTO getDetail(@PathVariable("id") Integer id) {
+        return inquiryService.getDetail(id);
     }
 
     /**
