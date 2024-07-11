@@ -1,5 +1,6 @@
 package com.ls.out.domain.model;
 
+import com.ls.out.dto.InquiryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Repository;
@@ -7,8 +8,7 @@ import org.springframework.stereotype.Repository;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Builder
 @Table(name = "inquiry")
 public class Inquiry {
@@ -30,5 +30,18 @@ public class Inquiry {
 
     private String manager;
 
-    private int inquiryState;
+    private boolean inquiryState;
+
+    public static Inquiry toEntity(InquiryDTO inquiryDTO) {
+        return Inquiry.builder()
+                .id(inquiryDTO.getId())
+                .name(inquiryDTO.getName())
+                .tel(inquiryDTO.getTel())
+                .companyName(inquiryDTO.getCompanyName())
+                .message(inquiryDTO.getMessage())
+                .manager(inquiryDTO.getManager())
+                .email(inquiryDTO.getEmail())
+                .inquiryState(inquiryDTO.isInquiryState())
+                .build();
+    }
 }

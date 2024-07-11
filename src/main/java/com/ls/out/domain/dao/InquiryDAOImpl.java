@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("inquiryDAO")
 public class InquiryDAOImpl implements InquiryDAO {
@@ -28,9 +29,9 @@ public class InquiryDAOImpl implements InquiryDAO {
     }
 
     @Override
-    public Inquiry getDetail(Integer id) {
-
-        return inquiryRepository.findById(id).orElse(null);
+    public Inquiry findById(Integer id) {
+        return inquiryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inquiry not found"));
     }
 
     @Override
@@ -54,9 +55,11 @@ public class InquiryDAOImpl implements InquiryDAO {
         try{
             inquiryRepository.save(inquiry);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+
     }
+
 }

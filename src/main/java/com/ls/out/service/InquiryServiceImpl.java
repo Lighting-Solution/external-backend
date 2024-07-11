@@ -4,10 +4,17 @@ import com.ls.out.domain.dao.InquiryDAO;
 import com.ls.out.domain.model.Inquiry;
 import com.ls.out.dto.AdminDTO;
 import com.ls.out.dto.InquiryDTO;
+import com.ls.out.dto.SendDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service("inquiryService")
@@ -24,35 +31,13 @@ public class InquiryServiceImpl implements InquiryService{
     public List<InquiryDTO> getAll() {
         List<Inquiry> inquiryList = inquiryDAO.getAll();
         return inquiryList.stream()
-                .map(inquiry -> {
-                    InquiryDTO inquiryDTO = new InquiryDTO();
-                    inquiryDTO.setId(inquiry.getId());
-                    inquiryDTO.setCompanyName(inquiry.getCompanyName());
-                    inquiryDTO.setName(inquiry.getName());
-                    inquiryDTO.setTel(inquiry.getTel());
-                    inquiryDTO.setEmail(inquiry.getEmail());
-                    inquiryDTO.setMessage(inquiry.getMessage());
-                    inquiryDTO.setManager(inquiry.getManager());
-                    inquiryDTO.setInquiryState(inquiry.getInquiryState());
-                    return inquiryDTO;
-
-                }).collect(Collectors.toList());
+                .map(InquiryDTO::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public InquiryDTO getDetail(Integer id) {
-        Inquiry inquiry = inquiryDAO.getDetail(id);
-
-        InquiryDTO inquiryDTO = new InquiryDTO();
-        inquiryDTO.setId(inquiry.getId());
-        inquiryDTO.setCompanyName(inquiry.getCompanyName());
-        inquiryDTO.setName(inquiry.getName());
-        inquiryDTO.setTel(inquiry.getTel());
-        inquiryDTO.setEmail(inquiry.getEmail());
-        inquiryDTO.setMessage(inquiry.getMessage());
-        inquiryDTO.setInquiryState(inquiry.getInquiryState());
-        inquiryDTO.setManager(inquiry.getManager());
-        return inquiryDTO;
+        Inquiry inquiry = inquiryDAO.findById(id);
+        return InquiryDTO.toDTO(inquiry);
     }
 
     @Override
@@ -72,32 +57,27 @@ public class InquiryServiceImpl implements InquiryService{
     }
 
     @Override
-    public boolean sendInquiry(Integer id) {
-        return false;
-    }
-
-    @Override
-    public boolean checkLogin(AdminDTO adminDTO) {
-        return false;
+    public boolean sendInquiry(SendDTO sendDTO) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("http://localhost:9000")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+        String result = webClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/v1/lighting_solutions/document/api/creation")
+                        .queryParam("title", sendDTO.getTitle())
+                        .queryParam("content", sendDTO.getContent())
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return Objects.equals(result, "Document created successfully");
     }
 
     @Override
     public boolean createInquiry(InquiryDTO inquiryDTO) {
-        try {
-            Inquiry inquiry = Inquiry.builder()
-                    .companyName(inquiryDTO.getCompanyName())
-                    .name(inquiryDTO.getName())
-                    .tel(inquiryDTO.getTel())
-                    .email(inquiryDTO.getEmail())
-                    .message(inquiryDTO.getMessage())
-                    .manager(inquiryDTO.getManager())
-                    .inquiryState(inquiryDTO.getInquiryState())
-                    .build();
-            inquiryDAO.createInquiry(inquiry);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        Inquiry inquiry = Inquiry.toEntity(inquiryDTO);
+        return inquiryDAO.save(inquiry);
     }
 }
