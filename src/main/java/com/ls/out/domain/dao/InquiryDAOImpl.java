@@ -24,12 +24,13 @@ public class InquiryDAOImpl implements InquiryDAO {
 
     @Override
     public List<Inquiry> getAll() {
-        return null;
+        return inquiryRepository.findAll();
     }
 
     @Override
     public Inquiry getDetail(Integer id) {
-        return null;
+
+        return inquiryRepository.findById(id).orElse(null);
     }
 
     @Override

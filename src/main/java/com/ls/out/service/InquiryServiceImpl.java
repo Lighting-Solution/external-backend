@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("inquiryService")
 public class InquiryServiceImpl implements InquiryService{
@@ -21,12 +22,37 @@ public class InquiryServiceImpl implements InquiryService{
 
     @Override
     public List<InquiryDTO> getAll() {
-        return null;
+        List<Inquiry> inquiryList = inquiryDAO.getAll();
+        return inquiryList.stream()
+                .map(inquiry -> {
+                    InquiryDTO inquiryDTO = new InquiryDTO();
+                    inquiryDTO.setId(inquiry.getId());
+                    inquiryDTO.setCompanyName(inquiry.getCompanyName());
+                    inquiryDTO.setName(inquiry.getName());
+                    inquiryDTO.setTel(inquiry.getTel());
+                    inquiryDTO.setEmail(inquiry.getEmail());
+                    inquiryDTO.setMessage(inquiry.getMessage());
+                    inquiryDTO.setManager(inquiry.getManager());
+                    inquiryDTO.setInquiryState(inquiry.getInquiryState());
+                    return inquiryDTO;
+
+                }).collect(Collectors.toList());
     }
 
     @Override
     public InquiryDTO getDetail(Integer id) {
-        return null;
+        Inquiry inquiry = inquiryDAO.getDetail(id);
+
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setId(inquiry.getId());
+        inquiryDTO.setCompanyName(inquiry.getCompanyName());
+        inquiryDTO.setName(inquiry.getName());
+        inquiryDTO.setTel(inquiry.getTel());
+        inquiryDTO.setEmail(inquiry.getEmail());
+        inquiryDTO.setMessage(inquiry.getMessage());
+        inquiryDTO.setInquiryState(inquiry.getInquiryState());
+        inquiryDTO.setManager(inquiry.getManager());
+        return inquiryDTO;
     }
 
     @Override
