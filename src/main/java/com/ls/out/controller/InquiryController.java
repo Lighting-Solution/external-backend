@@ -81,7 +81,7 @@ public class InquiryController {
      * @return
      */
     @PostMapping("/inquiry")
-    public boolean createInquiry(InquiryDTO inquiryDTO) {
+    public boolean createInquiry(@RequestBody InquiryDTO inquiryDTO) {
         return inquiryService.createInquiry(inquiryDTO);
     }
 
