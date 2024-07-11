@@ -49,7 +49,7 @@ public class InquiryController {
      */
     @PutMapping("/inquiry")
     public boolean updateInquiry(InquiryDTO inquiryDTO) {
-        return true;
+        return inquiryService.updateInquiry(inquiryDTO);
     }
 
     /**

@@ -35,7 +35,8 @@ public class InquiryDAOImpl implements InquiryDAO {
 
     @Override
     public boolean updateInquiry(Inquiry inquiry) {
-        return false;
+        Inquiry updatedInquiry = inquiryRepository.save(inquiry);
+        return updatedInquiry != null;
     }
 
     @Override

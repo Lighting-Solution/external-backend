@@ -57,6 +57,17 @@ public class InquiryServiceImpl implements InquiryService{
 
     @Override
     public boolean updateInquiry(InquiryDTO inquiryDTO) {
+        Inquiry inquiry = inquiryDAO.getDetail(inquiryDTO.getId());
+        if (inquiry != null) {
+            inquiry.setCompanyName(inquiryDTO.getCompanyName());
+            inquiry.setName(inquiryDTO.getName());
+            inquiry.setTel(inquiryDTO.getTel());
+            inquiry.setEmail(inquiryDTO.getEmail());
+            inquiry.setMessage(inquiryDTO.getMessage());
+            inquiry.setInquiryState(inquiryDTO.getInquiryState());
+            inquiry.setManager(inquiryDTO.getManager());
+            return inquiryDAO.updateInquiry(inquiry);
+        }
         return false;
     }
 
