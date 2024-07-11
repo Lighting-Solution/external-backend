@@ -12,4 +12,6 @@ import org.springframework.stereotype.Component;
 public class SendDTO {
     private String title;
     private String content;
+    private String category;
+    private Integer writerEmpId = 1;
 }

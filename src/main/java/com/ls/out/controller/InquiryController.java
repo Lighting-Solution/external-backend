@@ -58,6 +58,7 @@ public class InquiryController {
      * @param sendDTO
      * @return
      */
+    @CrossOrigin(origins = "http://localhost:3001", methods = {RequestMethod.POST})
     @PostMapping("/send")
     public boolean sendInquiry(@RequestBody SendDTO sendDTO) {
         return inquiryService.sendInquiry(sendDTO);

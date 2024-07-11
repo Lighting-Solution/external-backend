@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -52,16 +53,21 @@ public class InquiryServiceImpl implements InquiryService{
                 .baseUrl("http://localhost:9000")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
+
+        URI uri = UriComponentsBuilder.fromUriString("/document/api/creation")
+                .queryParam("title", sendDTO.getTitle())
+                .queryParam("content", sendDTO.getContent())
+                .queryParam("category", sendDTO.getCategory())
+                .queryParam("writerEmpId", sendDTO.getWriterEmpId())
+                .build()
+                .toUri();
+
         String result = webClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/lighting_solutions/document/api/creation")
-                        .queryParam("title", sendDTO.getTitle())
-                        .queryParam("content", sendDTO.getContent())
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
+                .uri(uri)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+
         return Objects.equals(result, "Document created successfully");
     }
 
