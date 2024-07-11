@@ -2,6 +2,7 @@ package com.ls.out.controller;
 
 import com.ls.out.dto.InquiryDTO;
 import com.ls.out.dto.AdminDTO;
+import com.ls.out.dto.SendDTO;
 import com.ls.out.service.AdminServiceImpl;
 import com.ls.out.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,19 +48,19 @@ public class InquiryController {
      * @param inquiryDTO
      * @return
      */
-    @PutMapping("/inquiry")
-    public boolean updateInquiry(InquiryDTO inquiryDTO) {
-        return true;
-    }
+    @PutMapping("/update")
+    public boolean updateInquiry(@RequestBody InquiryDTO inquiryDTO) {
 
+        return inquiryService.updateInquiry(inquiryDTO);
+    }
     /**
      * @apiNote 관리자가 문의 내용을 문서함으로 전송
-     * @param id
+     * @param sendDTO
      * @return
      */
     @PostMapping("/send")
-    public boolean sendInquiry(Integer id) {
-        return true;
+    public boolean sendInquiry(@RequestBody SendDTO sendDTO) {
+        return inquiryService.sendInquiry(sendDTO);
     }
 
     /**
@@ -80,7 +81,7 @@ public class InquiryController {
      * @param inquiryDTO
      * @return
      */
-    @PostMapping("/inquiry")
+    @PostMapping("/create")
     public boolean createInquiry(@RequestBody InquiryDTO inquiryDTO) {
         return inquiryService.createInquiry(inquiryDTO);
     }
