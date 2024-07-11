@@ -19,6 +19,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean checkLogin(AdminDTO adminDTO) {
         Optional<Admin> admin = adminDAO.findById(adminDTO.getId());
+        if(admin.isPresent()) {
+            admin.get().getPw();
+        }
         return admin.isPresent() && admin.get().getPw().equals(adminDTO.getPw());
     }
 }
