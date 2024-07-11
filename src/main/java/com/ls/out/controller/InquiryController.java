@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/lighting_solutions/inquiry")
+@CrossOrigin(origins = "http://localhost:3001")
 public class InquiryController {
 
     private final InquiryService inquiryService;
@@ -80,7 +81,7 @@ public class InquiryController {
      */
     @PostMapping("/inquiry")
     public boolean createInquiry(InquiryDTO inquiryDTO) {
-        return true;
+        return inquiryService.createInquiry(inquiryDTO);
     }
 
 
