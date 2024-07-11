@@ -41,7 +41,18 @@ public class InquiryServiceImpl implements InquiryService{
 
     @Override
     public InquiryDTO getDetail(Integer id) {
-        return null;
+        Inquiry inquiry = inquiryDAO.getDetail(id);
+
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setId(inquiry.getId());
+        inquiryDTO.setCompanyName(inquiry.getCompanyName());
+        inquiryDTO.setName(inquiry.getName());
+        inquiryDTO.setTel(inquiry.getTel());
+        inquiryDTO.setEmail(inquiry.getEmail());
+        inquiryDTO.setMessage(inquiry.getMessage());
+        inquiryDTO.setInquiryState(inquiry.getInquiryState());
+        inquiryDTO.setManager(inquiry.getManager());
+        return inquiryDTO;
     }
 
     @Override
