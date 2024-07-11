@@ -2,9 +2,9 @@ package com.ls.out.controller;
 
 import com.ls.out.dto.InquiryDTO;
 import com.ls.out.dto.AdminDTO;
+import com.ls.out.service.AdminServiceImpl;
 import com.ls.out.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +14,12 @@ import java.util.List;
 public class InquiryController {
 
     private final InquiryService inquiryService;
+    private final AdminServiceImpl adminService;
 
     @Autowired
-    public InquiryController(InquiryService inquiryService) {
+    public InquiryController(InquiryService inquiryService, AdminServiceImpl adminService) {
         this.inquiryService = inquiryService;
+        this.adminService = adminService;
     }
 
     /**
@@ -66,7 +68,7 @@ public class InquiryController {
      */
     @PostMapping("/admin")
     public boolean checkLogin(AdminDTO adminDTO) {
-        return true;
+        return adminService.checkLogin(adminDTO);
     }
 
     // ***************************************************************
