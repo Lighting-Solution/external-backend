@@ -37,8 +37,8 @@ public class InquiryController {
      * @param id
      * @return
      */
-    @GetMapping("/detail-inquiry")
-    public InquiryDTO getDetail(Integer id) {
+    @GetMapping("/detail-inquiry/{id}")
+    public InquiryDTO getDetail(@PathVariable Integer id) {
         return null;
     }
 
@@ -47,8 +47,8 @@ public class InquiryController {
      * @param inquiryDTO
      * @return
      */
-    @PutMapping("/inquiry")
-    public boolean updateInquiry(InquiryDTO inquiryDTO) {
+    @PutMapping("/update")
+    public boolean updateInquiry(@RequestBody InquiryDTO inquiryDTO) {
         return true;
     }
 
@@ -57,8 +57,8 @@ public class InquiryController {
      * @param id
      * @return
      */
-    @PostMapping("/send")
-    public boolean sendInquiry(Integer id) {
+    @PostMapping("/send/{id}")
+    public boolean sendInquiry(@PathVariable Integer id) {
         return true;
     }
 
@@ -80,7 +80,7 @@ public class InquiryController {
      * @param inquiryDTO
      * @return
      */
-    @PostMapping("/inquiry")
+    @PostMapping("/create")
     public boolean createInquiry(@RequestBody InquiryDTO inquiryDTO) {
         return inquiryService.createInquiry(inquiryDTO);
     }
