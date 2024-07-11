@@ -68,7 +68,8 @@ public class InquiryController {
      * @return
      */
     @PostMapping("/admin")
-    public boolean checkLogin(AdminDTO adminDTO) {
+    public boolean checkLogin(@RequestBody AdminDTO adminDTO) {
+        System.out.println(adminDTO);
         return adminService.checkLogin(adminDTO);
     }
 
@@ -80,7 +81,7 @@ public class InquiryController {
      * @return
      */
     @PostMapping("/inquiry")
-    public boolean createInquiry(InquiryDTO inquiryDTO) {
+    public boolean createInquiry(@RequestBody InquiryDTO inquiryDTO) {
         return inquiryService.createInquiry(inquiryDTO);
     }
 
