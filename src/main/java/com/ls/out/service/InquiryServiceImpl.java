@@ -1,6 +1,7 @@
 package com.ls.out.service;
 
 import com.ls.out.domain.dao.InquiryDAO;
+import com.ls.out.domain.model.Inquiry;
 import com.ls.out.dto.AdminDTO;
 import com.ls.out.dto.InquiryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,21 @@ public class InquiryServiceImpl implements InquiryService{
 
     @Override
     public boolean createInquiry(InquiryDTO inquiryDTO) {
-        return false;
+        try {
+            Inquiry inquiry = Inquiry.builder()
+                    .companyName(inquiryDTO.getCompanyName())
+                    .name(inquiryDTO.getName())
+                    .tel(inquiryDTO.getTel())
+                    .email(inquiryDTO.getEmail())
+                    .message(inquiryDTO.getMessage())
+                    .manager(inquiryDTO.getManager())
+                    .inquiryState(inquiryDTO.getInquiryState())
+                    .build();
+            inquiryDAO.createInquiry(inquiry);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
