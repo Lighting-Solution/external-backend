@@ -21,6 +21,7 @@ public class Admin {
     @SequenceGenerator(name = "my_sequence_generator", sequenceName = "admin_sequence", allocationSize = 1)
     private Integer idx;
 
+    @Column(name = "id", unique = true)
     private String id;
 
     private String pw;
