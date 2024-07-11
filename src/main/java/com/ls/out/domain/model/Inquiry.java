@@ -38,6 +38,8 @@ public class Inquiry {
                 .name(inquiryDTO.getName())
                 .tel(inquiryDTO.getTel())
                 .companyName(inquiryDTO.getCompanyName())
+                .message(inquiryDTO.getMessage())
+                .manager(inquiryDTO.getManager())
                 .email(inquiryDTO.getEmail())
                 .inquiryState(inquiryDTO.isInquiryState())
                 .build();
